@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏘️ CivicSync – Local Community Issue Tracker & Collaboration Hub
 
-## Getting Started
+## 📌 Project Overview
 
-First, run the development server:
+**CivicSync** is a free, open-source, community-powered civic issue tracker.  
+Residents can report problems, vote on issues, and collaborate with local authorities to build smarter neighborhoods.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Purpose
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To empower local residents, students, or community members to:
+- Report civic issues (e.g., potholes, garbage, broken lights)
+- Track their resolution status
+- Vote on priority issues
+- Collaborate with societies, campuses, or local governments
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 💼 Use Cases
 
-To learn more about Next.js, take a look at the following resources:
+- 🚧 Report potholes, water leaks, streetlight failures, garbage piles
+- 📍 Tag complaints to a location (map or pincode)
+- 🗳️ Vote and comment on complaints
+- 🧑‍💼 Local authority/admin updates status and assigns handlers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧰 Tech Stack
 
-## Deploy on Vercel
+| Layer     | Tech Used                            |
+|-----------|--------------------------------------|
+| Frontend  | React / Next.js + Tailwind CSS       |
+| Backend   | Node.js + Express                    |
+| Database  | MongoDB (or PostgreSQL + Prisma)     |
+| Extra     | JWT, Cloudinary, Google Maps/Leaflet |
+| Optional  | Pusher / Socket.io for real-time     |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Features
+
+### ✅ For Residents
+- Post a civic issue with title, description, category
+- Upload image/video proof
+- Select location via map or pincode
+- View, upvote, and comment on other issues
+- Track resolution status
+
+### 🛠️ For Admins
+- Dashboard to manage complaints
+- Assign handlers or volunteers
+- Filter issues by region, category, or status
+- Update status (Pending → In Progress → Resolved)
+- View analytics (top issues, most affected wards)
+
+### 👥 Community Tools (Phase 2+)
+- Create & vote on polls (e.g., security, development)
+- Announce events (e.g., clean-up drives, meetings)
+- Recruit volunteers or feedback collectors
+
+---
+
+## 🗂️ Folder Structure
+
+```plaintext
+civicsync/
+├── client/             # Frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── api/
+│   │   └── App.jsx
+│   └── package.json
+│
+├── server/             # Backend
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── config/
+│   │   └── db.js
+│   ├── uploads/
+│   ├── server.js
+│   └── package.json
+│
+├── prisma/             # Optional if using PostgreSQL
+│   └── schema.prisma
+│
+├── .gitignore
+├── .env.example
+├── README.md
+└── LICENSE
