@@ -1,8 +1,8 @@
-// app/api/report/route.ts
 import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Issue } from "@/models/Issue";
 
+// POST /api/report - Create new issue
 export async function POST(req: NextRequest) {
   await connectDB();
 
@@ -39,5 +39,18 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Error saving issue:", error);
     return new Response("Failed to save issue", { status: 500 });
+  }
+}
+
+// GET /api/report - Fetch all issues
+export async function GET() {
+  await connectDB();
+
+  try {
+    const issues = await Issue.find().sort({ createdAt: -1 });
+    return Response.json(issues);
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+    return new Response("Failed to fetch issues", { status: 500 });
   }
 }
