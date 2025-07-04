@@ -4,13 +4,13 @@ import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { username, email, password } = await req.json();
-  if (!username || !email || !password)
+  const { username, email, password ,role} = await req.json();
+  if (!username || !email || !password || !role)
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
     );
-  console.log(username, email, password);
+  console.log(username, email, password , role);
   await connectDB();
 
   const existing = await User.findOne({ email });
@@ -21,6 +21,6 @@ export async function POST(req: Request) {
     );
 
   const hashed = await bcrypt.hash(password, 10);
-  const user = await User.create({ username, email, password: hashed });
+  const user = await User.create({ username, email, password: hashed,role });
   return NextResponse.json({ message: "User registered successfully", user });
 }

@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     const token = generateToken(user);
 
-    (await cookies()).set("token5", token, {
+    (await cookies()).set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
