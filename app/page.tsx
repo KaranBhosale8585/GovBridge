@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import toast from "react-hot-toast";
 import IssueCard from "@/components/IssueCard";
-import { MapPin } from "lucide-react";
+import { Loader, MapPin } from "lucide-react";
 
 type Issue = {
   _id: string;
@@ -29,8 +29,10 @@ export default function HomePage() {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [filterPin, setFilterPin] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const fetchIssues = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/report");
       const data = await res.json();
@@ -45,6 +47,8 @@ export default function HomePage() {
       console.error("Fetch error:", err);
       toast.error("Failed to load issues");
       setIssues([]);
+    } finally {
+      setLoading(false);
     }
   };  
 
@@ -141,7 +145,11 @@ export default function HomePage() {
 
         {/* Issues Grid */}
         <div className="max-w-7xl mx-auto">
-          {filteredIssues.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center mt-10">
+              <Loader className="h-8 w-8 animate-spin text-gray-700" />
+            </div>
+          ) : filteredIssues.length === 0 ? (
             <p className="text-center text-gray-500 text-sm mt-10">
               No issues found.
             </p>
