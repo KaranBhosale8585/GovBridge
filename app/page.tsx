@@ -17,9 +17,9 @@ type Issue = {
   comments: number;
   createdAt: string;
   media?: {
+    url: string;
     filename: string;
     mimetype: string;
-    buffer?: any;
   };
 };
 

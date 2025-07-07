@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@import "uploadthing/tw/v4";
+@source "../node_modules/@uploadthing/react/dist";
+/** <-- adjust this based on your folder structure */
+
+@import "tailwindcss";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

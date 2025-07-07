@@ -1,23 +1,22 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Issue } from "@/models/Issue";
 
 // POST /api/report - Create new issue
 export async function POST(req: NextRequest) {
-  await connectDB();
-
-  const formData = await req.formData();
-  const title = formData.get("title") as string;
-  const description = formData.get("description") as string;
-  const category = formData.get("category") as string;
-  const pin = formData.get("pin") as string;
-  const lat = parseFloat(formData.get("lat") as string);
-  const lng = parseFloat(formData.get("lng") as string);
-  const media = formData.get("media") as File | null;
-
-  const buffer = media ? Buffer.from(await media.arrayBuffer()) : null;
-
   try {
+    await connectDB();
+
+    const body = await req.json();
+    const { title, description, category, pin, lat, lng, mediaUrl } = body;
+
+    if (!title || !description || !category || !pin || !lat || !lng) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
     const issue = new Issue({
       title,
       description,
@@ -25,32 +24,40 @@ export async function POST(req: NextRequest) {
       pin,
       lat,
       lng,
-      media: media
+      media: mediaUrl
         ? {
-            filename: media.name,
-            mimetype: media.type,
-            buffer,
+            url: mediaUrl,
+            filename: mediaUrl.split("/").pop() || "unknown",
+            mimetype: mediaUrl.endsWith(".mp4") ? "video/mp4" : "image/jpeg",
           }
         : null,
     });
 
+    console.log("Saving issue with media URL:", issue.media?.url || "No media");
+
     await issue.save();
-    return Response.json({ message: "Issue submitted successfully!" });
+
+    return NextResponse.json({ message: "Issue submitted successfully!" });
   } catch (error) {
     console.error("Error saving issue:", error);
-    return new Response("Failed to save issue", { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to save issue" },
+      { status: 500 }
+    );
   }
 }
 
 // GET /api/report - Fetch all issues
 export async function GET() {
-  await connectDB();
-
   try {
+    await connectDB();
     const issues = await Issue.find().sort({ createdAt: -1 });
-    return Response.json(issues);
+    return NextResponse.json(issues);
   } catch (error) {
     console.error("Error fetching issues:", error);
-    return new Response("Failed to fetch issues", { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch issues" },
+      { status: 500 }
+    );
   }
 }

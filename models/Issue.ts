@@ -2,16 +2,16 @@ import mongoose, { Schema } from "mongoose";
 
 const IssueSchema = new Schema(
   {
-    title: String,
-    description: String,
-    category: String,
-    pin: String,
-    lat: Number,
-    lng: Number,
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    category: { type: String, required: true },
+    pin: { type: String, required: true },
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true },
     media: {
+      url: String,
       filename: String,
       mimetype: String,
-      buffer: Buffer,
     },
   },
   { timestamps: true }

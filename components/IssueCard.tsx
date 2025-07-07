@@ -12,9 +12,9 @@ type Issue = {
   upvotes: number;
   comments: number;
   media?: {
+    url: string;
     filename: string;
     mimetype: string;
-    buffer?: any;
   };
 };
 
@@ -37,28 +37,32 @@ export default function IssueCard({ issue }: { issue: Issue }) {
     fetchAddress();
   }, [issue.lat, issue.lng]);
 
-  const imageSrc = issue.media?.buffer
-    ? `data:${issue.media.mimetype};base64,${Buffer.from(
-        issue.media.buffer.data
-      ).toString("base64")}`
-    : "/placeholder.jpg";
+  console.log(issue)
 
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-4">
-      <div className="flex justify-between items-start">
-        <div>
+      <div className="flex justify-between items-start gap-4">
+        <div className="flex-1">
           <h2 className="text-lg font-semibold mb-1">{issue.title}</h2>
           <p className="text-sm text-gray-600">📍 {address}</p>
           <p className="text-xs text-gray-400 mt-1">🗂️ {issue.category}</p>
         </div>
-        {issue.media?.buffer && (
+
+        {/* Render image or video */}
+        {issue.media?.url && issue.media.mimetype.startsWith("image/") && (
           <Image
-            src={imageSrc}
+            src={issue.media.url}
             alt={issue.title}
             width={80}
             height={80}
             className="rounded-md object-cover"
           />
+        )}
+        {issue.media?.url && issue.media.mimetype.startsWith("video/") && (
+          <video width={80} height={80} controls className="rounded-md">
+            <source src={issue.media.url} type={issue.media.mimetype} />
+            Your browser does not support the video tag.
+          </video>
         )}
       </div>
 
