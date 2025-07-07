@@ -12,7 +12,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
         <h1 className="text-2xl font-semibold text-gray-800 tracking-tight">
-          <Link href="/">CivicSync</Link>
+          <Link href="/">GovBridge</Link>
         </h1>
 
         {/* Desktop Nav */}
