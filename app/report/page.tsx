@@ -157,7 +157,7 @@ export default function ReportIssuePage() {
 
             {/* Upload */}
             <div>
-              <label className="block font-medium mb-1 flex items-center gap-2">
+              <label className=" font-medium mb-1 flex items-center gap-2">
                 <ImageIcon className="w-4 h-4" />
                 Image / Video Upload
               </label>
@@ -224,7 +224,7 @@ export default function ReportIssuePage() {
 
             {/* Map */}
             <div>
-              <label className="block font-medium mb-1 flex items-center gap-2">
+              <label className=" font-medium mb-1 flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
                 Mark Location on Map
               </label>
