@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { MapPin, ThumbsUp, MessageCircle, AlertCircle } from "lucide-react";
 
 type Issue = {
   _id: string;
@@ -30,53 +31,77 @@ export default function IssueCard({ issue }: { issue: Issue }) {
         const data = await res.json();
         const location = data?.results?.[0]?.formatted || "Unknown location";
         setAddress(location);
-      } catch (err) {
+      } catch {
         setAddress("Location not found");
       }
     };
     fetchAddress();
   }, [issue.lat, issue.lng]);
 
-  console.log(issue)
-
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-4">
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex-1">
-          <h2 className="text-lg font-semibold mb-1">{issue.title}</h2>
-          <p className="text-sm text-gray-600">📍 {address}</p>
-          <p className="text-xs text-gray-400 mt-1">🗂️ {issue.category}</p>
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-200 p-4 flex flex-col justify-between h-full">
+      <div className="flex flex-col gap-2">
+        {/* Title & Meta */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">
+            {issue.title}
+          </h2>
+          <p className="text-sm text-gray-600 flex items-center gap-1">
+            <MapPin className="w-4 h-4 text-gray-500" />
+            {address}
+          </p>
+          <p className="text-xs text-gray-500">Category: {issue.category}</p>
         </div>
 
-        {/* Render image or video */}
+        {/* Media Preview */}
         {issue.media?.url && issue.media.mimetype.startsWith("image/") && (
-          <Image
-            src={issue.media.url}
-            alt={issue.title}
-            width={80}
-            height={80}
-            className="rounded-md object-cover"
-          />
+          <div className="mt-2 rounded overflow-hidden w-full max-h-48">
+            <Image
+              src={issue.media.url}
+              alt={issue.title}
+              width={400}
+              height={200}
+              className="w-full h-auto object-cover rounded-md"
+            />
+          </div>
         )}
+
         {issue.media?.url && issue.media.mimetype.startsWith("video/") && (
-          <video width={80} height={80} controls className="rounded-md">
-            <source src={issue.media.url} type={issue.media.mimetype} />
-            Your browser does not support the video tag.
-          </video>
+          <div className="mt-2 rounded overflow-hidden">
+            <video
+              width="100%"
+              height="200"
+              controls
+              className="rounded-md object-cover w-full max-h-48"
+            >
+              <source src={issue.media.url} type={issue.media.mimetype} />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         )}
+
+        {/* Description */}
+        <p className="text-sm text-gray-800 mt-2 line-clamp-3">
+          {issue.description}
+        </p>
       </div>
 
-      <p className="text-sm text-gray-700 mt-3 line-clamp-3">
-        {issue.description}
-      </p>
-
-      <div className="flex justify-between items-center mt-4 text-sm">
-        <div className="text-gray-600">
-          👍 {issue.upvotes || 0} &nbsp;| 💬 {issue.comments || 0}
+      {/* Footer Info */}
+      <div className="flex items-center justify-between text-xs text-gray-600 mt-4 pt-2 border-t border-gray-200">
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1">
+            <ThumbsUp className="w-4 h-4" />
+            {issue.upvotes || 0}
+          </span>
+          <span className="flex items-center gap-1">
+            <MessageCircle className="w-4 h-4" />
+            {issue.comments || 0}
+          </span>
         </div>
-        <div className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">
-          Status: In Progress
-        </div>
+        <span className="flex items-center gap-1 italic text-gray-500">
+          <AlertCircle className="w-4 h-4" />
+          In Progress
+        </span>
       </div>
     </div>
   );

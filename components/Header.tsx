@@ -1,29 +1,78 @@
+"use client";
+
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { Menu, X, FileEdit, LogIn, UserPlus } from "lucide-react";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div>
-      {/* Header */}
-      <header className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">
+    <header className="border-b border-gray-300 bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <h1 className="text-2xl font-semibold text-gray-800 tracking-tight">
           <Link href="/">CivicSync</Link>
         </h1>
-        <nav className="space-x-4">
-          <Link href="/report" className="text-blue-600 hover:underline">
-            Report
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+          <Link
+            href="/report"
+            className="flex items-center gap-1 hover:text-black transition-colors"
+          >
+            <FileEdit size={16} /> Report
+          </Link>
+          <Link
+            href="/login"
+            className="flex items-center gap-1 hover:text-black transition-colors"
+          >
+            <LogIn size={16} /> Login
+          </Link>
+          <Link
+            href="/register"
+            className="flex items-center gap-1 hover:text-black transition-colors"
+          >
+            <UserPlus size={16} /> Register
           </Link>
         </nav>
-        <nav className="space-x-4">
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-gray-700"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Nav Menu */}
+      {isOpen && (
+        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
+          <Link
+            href="/report"
+            className="flex items-center gap-2 hover:text-black"
+            onClick={() => setIsOpen(false)}
+          >
+            <FileEdit size={16} /> Report
           </Link>
-          <Link href="/register" className="text-blue-600 hover:underline">
-            Register
+          <Link
+            href="/login"
+            className="flex items-center gap-2 hover:text-black"
+            onClick={() => setIsOpen(false)}
+          >
+            <LogIn size={16} /> Login
           </Link>
-        </nav>
-      </header>
-    </div>
+          <Link
+            href="/register"
+            className="flex items-center gap-2 hover:text-black"
+            onClick={() => setIsOpen(false)}
+          >
+            <UserPlus size={16} /> Register
+          </Link>
+        </div>
+      )}
+    </header>
   );
 };
 

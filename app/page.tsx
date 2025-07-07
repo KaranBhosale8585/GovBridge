@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import IssueCard from "@/components/IssueCard";
+import { MapPin } from "lucide-react";
 
 type Issue = {
   _id: string;
@@ -83,58 +84,66 @@ export default function HomePage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 px-4 py-6">
-      <Toaster />
+    <>
       <Header />
+      <div className="min-h-screen bg-white text-black px-4 sm:px-6 py-8">
+        {/* Location & Filters */}
+        <div className="max-w-7xl mx-auto mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Location Info */}
+            <div className="flex items-center gap-2 text-sm sm:text-base">
+              <MapPin className="w-5 h-5 text-gray-700" />
+              <span className="text-gray-700 truncate max-w-[250px] sm:max-w-none">
+                {location}
+              </span>
+              <button
+                onClick={detectLocation}
+                className="text-xs underline text-gray-600 hover:text-black transition ml-2"
+              >
+                Auto-detect
+              </button>
+            </div>
 
-      {/* Location and filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex items-center space-x-2">
-          <span className="text-lg">📍</span>
-          <span>{location}</span>
-          <button
-            onClick={detectLocation}
-            className="text-sm text-blue-600 hover:underline ml-2"
-          >
-            Auto-detect
-          </button>
+            {/* Filter Controls */}
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="text"
+                placeholder="Filter by PIN"
+                value={filterPin}
+                onChange={(e) => setFilterPin(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:border-black text-sm w-40"
+              />
+              <select
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:border-black text-sm w-40"
+              >
+                <option value="">All Categories</option>
+                <option value="garbage">Garbage</option>
+                <option value="road">Road Damage</option>
+                <option value="electricity">Electricity</option>
+                <option value="water">Water</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <input
-            type="text"
-            placeholder="Filter by PIN"
-            value={filterPin}
-            onChange={(e) => setFilterPin(e.target.value)}
-            className="px-3 py-2 border rounded-md w-40"
-          />
-          <select
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-            className="px-3 py-2 border rounded-md w-40"
-          >
-            <option value="">All Categories</option>
-            <option value="garbage">Garbage</option>
-            <option value="road">Road Damage</option>
-            <option value="electricity">Electricity</option>
-            <option value="water">Water</option>
-            <option value="other">Other</option>
-          </select>
+        {/* Issues Grid */}
+        <div className="max-w-7xl mx-auto">
+          {filteredIssues.length === 0 ? (
+            <p className="text-center text-gray-500 text-sm mt-10">
+              No issues found.
+            </p>
+          ) : (
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredIssues.map((issue) => (
+                <IssueCard key={issue._id} issue={issue} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Issues */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
-        {filteredIssues.length === 0 ? (
-          <p className="text-center col-span-full text-gray-500">
-            No issues found.
-          </p>
-        ) : (
-          filteredIssues.map((issue) => (
-            <IssueCard key={issue._id} issue={issue} />
-          ))
-        )}
-      </div>
-    </div>
+    </>
   );
 }

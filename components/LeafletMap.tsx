@@ -7,15 +7,18 @@ import {
   useMapEvents,
   useMap,
 } from "react-leaflet";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { MapPin } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 type LatLng = { lat: number; lng: number };
 
+// Custom icon using Lucide MapPin
 const customIcon = new L.DivIcon({
-  html: renderToStaticMarkup(<FaMapMarkerAlt size={32} color="red" />),
+  html: renderToStaticMarkup(
+    <MapPin size={32} color="red" strokeWidth={2.5} />
+  ),
   className: "",
   iconAnchor: [16, 32],
 });
