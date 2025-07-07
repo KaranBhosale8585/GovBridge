@@ -34,11 +34,19 @@ export default function HomePage() {
     try {
       const res = await fetch("/api/report");
       const data = await res.json();
-      setIssues(data);
+
+      if (Array.isArray(data)) {
+        setIssues(data);
+      } else {
+        console.error("Unexpected data from API:", data);
+        setIssues([]);
+      }
     } catch (err) {
+      console.error("Fetch error:", err);
       toast.error("Failed to load issues");
+      setIssues([]);
     }
-  };
+  };  
 
   useEffect(() => {
     fetchIssues();
@@ -76,12 +84,14 @@ export default function HomePage() {
     );
   };
 
-  const filteredIssues = issues.filter((issue) => {
-    return (
-      (filterPin ? issue.pin.includes(filterPin) : true) &&
-      (filterCategory ? issue.category === filterCategory : true)
-    );
-  });
+  const filteredIssues = Array.isArray(issues)
+    ? issues.filter((issue) => {
+        return (
+          (filterPin ? issue.pin.includes(filterPin) : true) &&
+          (filterCategory ? issue.category === filterCategory : true)
+        );
+      })
+    : [];
 
   return (
     <>
