@@ -1,4 +1,4 @@
-# 🏘️ CivicSync – Local Community Issue Tracker & Collaboration Hub
+# 🏘️ GovBridge – Local Community Issue Tracker & Collaboration Hub
 
 ## 📌 Project Overview
 
