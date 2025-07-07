@@ -1,26 +1,47 @@
 import { connectDB } from "@/lib/mongodb";
 import { User } from "@/models/user";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-  const { username, email, password ,role} = await req.json();
-  if (!username || !email || !password || !role)
+export async function POST(req: NextRequest) {
+  try {
+    const { name, email, password, role } = await req.json();
+    console.log(name, email, password, role);
+
+    if (!name || !email || !password || !role) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    await connectDB();
+
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 400 }
+      );
+    }
+
+    const hashed = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      name,
+      email,
+      password: hashed,
+      role,
+    });
+
     return NextResponse.json(
-      { error: "Missing required fields" },
-      { status: 400 }
+      { message: "User registered successfully", user },
+      { status: 201 }
     );
-  console.log(username, email, password , role);
-  await connectDB();
-
-  const existing = await User.findOne({ email });
-  if (existing)
+  } catch (err) {
+    console.error("Registration error:", err);
     return NextResponse.json(
-      { error: `User already exists` },
-      { status: 400 }
+      { error: "Server error. Please try again later." },
+      { status: 500 }
     );
-
-  const hashed = await bcrypt.hash(password, 10);
-  const user = await User.create({ username, email, password: hashed,role });
-  return NextResponse.json({ message: "User registered successfully", user });
+  }
 }
