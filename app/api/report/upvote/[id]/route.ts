@@ -10,8 +10,6 @@ export async function POST(
   const params = await context.params;
   const { id } = params;
 
-  console.log("Upvote request received for issue:", id);
-
   try {
     const updated = await Issue.findByIdAndUpdate(
       id,

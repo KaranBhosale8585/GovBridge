@@ -3,13 +3,13 @@ import { connectDB } from "@/lib/mongodb";
 import { Issue } from "@/models/Issue";
 
 // POST: Add a comment to an issue
-export async function POST(req: NextRequest, context: { params: { id: string } }) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await connectDB();
-  const params = await context.params;
+
   const { id } = params;
-
-  await connectDB();
-
   const { comment } = await req.json();
 
   if (!comment || comment.trim() === "") {
@@ -42,12 +42,13 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
 }
 
 // GET: Fetch all comments for an issue
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await connectDB();
-  const params = await context.params;
-  const { id } = params;
 
-  await connectDB();
+  const { id } = params;
 
   try {
     const issue = await Issue.findById(id).select("comments");
