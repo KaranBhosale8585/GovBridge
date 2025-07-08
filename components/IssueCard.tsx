@@ -87,7 +87,7 @@ export default function IssueCard({ issue }: { issue: Issue }) {
     if (!newComment.trim()) return;
 
     try {
-      const res = await fetch(`/api/report/${issue._id}/comment`, {
+      const res = await fetch(`/api/report/comment/${issue._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ comment: newComment }),
