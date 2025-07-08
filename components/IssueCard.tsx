@@ -73,7 +73,7 @@ export default function IssueCard({ issue }: { issue: Issue }) {
 
   const loadComments = async () => {
     try {
-      const res = await fetch(`/api/report/${issue._id}/comment`);
+      const res = await fetch(`/api/report/comment/${issue._id}`);
       const data = await res.json();
       if (Array.isArray(data)) {
         setCommentList(data.reverse());

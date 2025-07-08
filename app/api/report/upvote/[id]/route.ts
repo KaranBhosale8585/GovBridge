@@ -4,11 +4,12 @@ import { Issue } from "@/models/Issue";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } } // ✅ Correct usage
+  context: { params: { id: string } }
 ) {
   await connectDB();
-
+  const params = await context.params;
   const { id } = params;
+
   console.log("Upvote request received for issue:", id);
 
   try {
