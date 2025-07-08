@@ -2,10 +2,23 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { Menu, X, FileEdit, LogIn, UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Menu, X, FileEdit, LogIn, LogOut, UserPlus } from "lucide-react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   return (
     <header className="border-b border-gray-300 bg-white shadow-sm">
@@ -35,6 +48,12 @@ const Header = () => {
           >
             <UserPlus size={16} /> Register
           </Link>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1 hover:text-black transition-colors"
+          >
+            <LogOut size={16} /> Logout
+          </button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -70,6 +89,15 @@ const Header = () => {
           >
             <UserPlus size={16} /> Register
           </Link>
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              handleLogout();
+            }}
+            className="flex items-center gap-2 hover:text-black"
+          >
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       )}
     </header>

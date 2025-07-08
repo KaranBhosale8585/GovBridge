@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const token = generateToken(user);
+    const token = await generateToken(user);
 
     (await cookies()).set("token", token, {
       httpOnly: true,
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       message: "Login successful",
-      user: { id: user._id, email: user.email },
+      user: { id: user._id, email: user.email, role: user.role },
     });
   } catch (err) {
     console.error("Login error:", err);

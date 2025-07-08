@@ -8,6 +8,13 @@ const IssueSchema = new Schema(
     pin: { type: String, required: true },
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
+    upvotes: { type: Number, default: 0 },
+    comments: [
+      {
+        text: String,
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
     media: {
       url: String,
       filename: String,
