@@ -8,8 +8,8 @@ export async function POST(
   context: { params: { id: string } }
 ) {
   await connectDB();
-  const params = await context.params;
-  const { id } = params;
+  const { id } = context.params; // ❌ no await
+
   const { comment } = await req.json();
 
   if (!comment || comment.trim() === "") {
@@ -47,8 +47,7 @@ export async function GET(
   context: { params: { id: string } }
 ) {
   await connectDB();
-  const params  = await context.params;
-  const { id } = params;
+  const { id } = context.params; // ❌ no await
 
   try {
     const issue = await Issue.findById(id).select("comments");
