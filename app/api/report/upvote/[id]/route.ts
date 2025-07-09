@@ -7,8 +7,8 @@ export async function POST(
   context: { params: { id: string } }
 ) {
   await connectDB();
-  const params = await context.params;
-  const { id } = params;
+
+  const { id } = context.params;
 
   try {
     const updated = await Issue.findByIdAndUpdate(
