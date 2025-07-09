@@ -1,13 +1,16 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyToken } from "./utils/auth";
 
+// Routes requiring specific roles
 const roleProtectedRoutes: Record<string, string[]> = {
   "/admin": ["admin"],
   "/dashboard": ["admin", "public"],
   "/profile": ["public", "admin"],
 };
+
+// Routes that require any authenticated user (no specific role)
+const authRequiredPaths = ["/", "/report"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -18,6 +21,11 @@ export async function middleware(request: NextRequest) {
   // Redirect logged-in users away from /login or /register
   if (user && (pathname === "/login" || pathname === "/register")) {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // Block unauthenticated access to protected auth paths (e.g. "/", "/report")
+  if (!user && authRequiredPaths.includes(pathname)) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   // Role-based protection
@@ -41,8 +49,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/admin/:path*",
     "/dashboard/:path*",
+    "/report",
     "/report/:path*",
     "/login",
     "/register",
