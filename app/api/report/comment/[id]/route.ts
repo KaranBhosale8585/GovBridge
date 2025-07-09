@@ -2,14 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Issue } from "@/models/Issue";
 
-// POST: Add a comment to an issue
-export async function POST(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
+// POST: Add a comment
+export async function POST(req: NextRequest, context: any) {
   await connectDB();
-  const { id } = context.params; // ❌ no await
-
+  const { id } = context.params;
   const { comment } = await req.json();
 
   if (!comment || comment.trim() === "") {
@@ -41,13 +37,10 @@ export async function POST(
   }
 }
 
-// GET: Fetch all comments for an issue
-export async function GET(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
+// GET: Fetch comments
+export async function GET(req: NextRequest, context: any) {
   await connectDB();
-  const { id } = context.params; // ❌ no await
+  const { id } = context.params;
 
   try {
     const issue = await Issue.findById(id).select("comments");
