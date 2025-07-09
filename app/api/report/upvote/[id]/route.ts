@@ -2,13 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Issue } from "@/models/Issue";
 
-export async function POST(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  await connectDB();
-
+export async function POST(req: NextRequest, context: any) {
   const { id } = context.params;
+  await connectDB();
 
   try {
     const updated = await Issue.findByIdAndUpdate(
