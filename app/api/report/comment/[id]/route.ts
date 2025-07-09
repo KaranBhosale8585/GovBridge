@@ -5,10 +5,10 @@ import { Issue } from "@/models/Issue";
 // POST: Add a comment to an issue
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await connectDB();
-
+  const params = await context.params;
   const { id } = params;
   const { comment } = await req.json();
 
@@ -44,10 +44,10 @@ export async function POST(
 // GET: Fetch all comments for an issue
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await connectDB();
-
+  const params  = await context.params;
   const { id } = params;
 
   try {
