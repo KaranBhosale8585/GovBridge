@@ -15,7 +15,7 @@ type Issue = {
   lat: number;
   lng: number;
   upvotes: number;
-  comments: number;
+  comments: { text: string; createdAt: string }[];
   createdAt: string;
   media?: {
     url: string;
