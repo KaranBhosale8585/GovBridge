@@ -10,6 +10,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [msg, setMsg] = useState("");
   const [errors, setErrors] = useState({ email: false, password: false });
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -27,11 +28,13 @@ export default function Login() {
       return;
     }
 
+    setLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
+        cache: "no-store", // Prevent caching issues
       });
 
       const data = await res.json();
@@ -39,11 +42,15 @@ export default function Login() {
 
       if (res.ok) {
         setForm({ email: "", password: "" });
-        localStorage.setItem("token", data.token);
-        router.push("/");
+        // Wait a short moment before redirecting (helps on Vercel)
+        setTimeout(() => {
+          router.replace("/");
+        }, 100);
       }
     } catch {
       setMsg("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,9 +122,10 @@ export default function Login() {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-black text-white rounded-md hover:bg-gray-900 transition"
+              className="w-full py-2 px-4 bg-black text-white rounded-md hover:bg-gray-900 transition disabled:opacity-50"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
