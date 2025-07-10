@@ -50,7 +50,7 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   useEffect(() => {
     fetchIssues();

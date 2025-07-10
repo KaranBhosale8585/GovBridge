@@ -36,18 +36,6 @@ const Header = () => {
           >
             <FileEdit size={16} /> Report
           </Link>
-          <Link
-            href="/login"
-            className="flex items-center gap-1 hover:text-black transition-colors"
-          >
-            <LogIn size={16} /> Login
-          </Link>
-          <Link
-            href="/register"
-            className="flex items-center gap-1 hover:text-black transition-colors"
-          >
-            <UserPlus size={16} /> Register
-          </Link>
           <button
             onClick={handleLogout}
             className="flex items-center gap-1 hover:text-black transition-colors"
