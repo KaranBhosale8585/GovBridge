@@ -4,6 +4,7 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 export async function generateToken(user: any): Promise<string> {
   return await new SignJWT({
+    name: user.name,
     id: user._id,
     email: user.email,
     role: user.role,

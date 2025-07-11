@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { MapPin, ThumbsUp, MessageCircle, AlertCircle } from "lucide-react";
+import { MapPin, ThumbsUp, MessageCircle, AlertCircle, ExternalLink, Map, MapPinned } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -24,9 +24,14 @@ type Issue = {
   lat: number;
   lng: number;
   upvotes: number;
+  status?: "open" | "in-progress" | "resolved";
   comments: {
     text: string;
     createdAt: string;
+    user?: {
+      name: string;
+      email: string;
+    };
   }[];
   media?: {
     url: string;
@@ -65,9 +70,9 @@ export default function IssueCard({ issue }: { issue: Issue }) {
       });
       const data = await res.json();
       setUpvotes(data.upvotes);
-      toast.success("Upvoted!");
+      toast.success(data.liked ? "Upvoted!" : "Upvote removed");
     } catch {
-      toast.error("Failed to upvote");
+      toast.error("Failed to update vote");
     }
   };
 
@@ -109,10 +114,18 @@ export default function IssueCard({ issue }: { issue: Issue }) {
           <h2 className="text-lg font-semibold text-gray-900 mb-1">
             {issue.title}
           </h2>
-          <p className="text-sm text-gray-600 flex items-center gap-1">
-            <MapPin className="w-4 h-4 text-gray-500" />
-            {address}
-          </p>
+          <div className="text-sm text-gray-600 flex items-center gap-2">
+            <MapPin className="w-8 h-8 text-gray-500" />
+            <span>{address}</span>
+            <a
+              href={`https://www.google.com/maps?q=${issue.lat},${issue.lng}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline text-xs"
+            >
+              <MapPinned className="w-6 h-6 text-gray-500" />
+            </a>
+          </div>
           <p className="text-xs text-gray-500">Category: {issue.category}</p>
         </div>
 
@@ -176,6 +189,9 @@ export default function IssueCard({ issue }: { issue: Issue }) {
                 ) : (
                   commentList.map((c, idx) => (
                     <div key={idx} className="bg-gray-100 p-2 rounded text-sm">
+                      <p className="font-medium">
+                        {c.user?.name || c.user?.email || "Anonymous"}
+                      </p>
                       <p>{c.text}</p>
                       <p className="text-xs text-gray-400 text-right">
                         {new Date(c.createdAt).toLocaleString()}
@@ -200,9 +216,9 @@ export default function IssueCard({ issue }: { issue: Issue }) {
           </Dialog>
         </div>
 
-        <span className="flex items-center gap-1 italic text-gray-500">
+        <span className="flex items-center gap-1 italic text-gray-500 capitalize">
           <AlertCircle className="w-4 h-4" />
-          In Progress
+          {issue.status || "open"}
         </span>
       </div>
     </div>

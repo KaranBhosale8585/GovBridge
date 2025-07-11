@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Issue } from "@/models/Issue";
+import { getCurrentUser } from "@/lib/getCurrentUser";
 
 // POST /api/report - Create new issue
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const body = await req.json();
     const { title, description, category, pin, lat, lng, mediaUrl } = body;
 
@@ -24,6 +28,7 @@ export async function POST(req: NextRequest) {
       pin,
       lat,
       lng,
+      user: user._id,
       media: mediaUrl
         ? {
             url: mediaUrl,
@@ -32,8 +37,6 @@ export async function POST(req: NextRequest) {
           }
         : null,
     });
-
-    console.log("Saving issue with media URL:", issue.media?.url || "No media");
 
     await issue.save();
 
@@ -51,7 +54,8 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     await connectDB();
-    const issues = await Issue.find().sort({ createdAt: -1 });
+    const issues = await Issue.find()
+      .sort({ createdAt: -1 });
     return NextResponse.json(issues);
   } catch (error) {
     console.error("Error fetching issues:", error);
