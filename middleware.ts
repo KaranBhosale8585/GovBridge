@@ -5,7 +5,7 @@ import { verifyToken } from "./utils/auth";
 // Routes requiring specific roles
 const roleProtectedRoutes: Record<string, string[]> = {
   "/admin": ["admin"],
-  "/dashboard": ["admin", "public"],
+  "/dashboard": ["admin"],
   "/profile": ["public", "admin"],
 };
 
