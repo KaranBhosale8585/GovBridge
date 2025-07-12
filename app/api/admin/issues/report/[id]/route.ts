@@ -14,6 +14,7 @@ export async function PATCH(
     { status },
     { new: true }
   );
+
   return NextResponse.json(updatedIssue);
 }
 
@@ -22,6 +23,8 @@ export async function DELETE(
   context: { params: { id: string } }
 ) {
   await connectDB();
+
   await Issue.findByIdAndDelete(context.params.id);
+
   return NextResponse.json({ message: "Issue deleted" });
 }
