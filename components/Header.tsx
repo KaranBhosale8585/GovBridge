@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X, FileEdit, LogIn, LogOut, UserPlus } from "lucide-react";
+import { Menu, X, FileEdit, LogIn, LogOut, UserPlus, LayoutDashboard, ShieldUser } from "lucide-react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,11 +31,19 @@ const Header = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
           <Link
+            href="/dashboard"
+            className="flex items-center gap-1 hover:text-black transition-colors"
+          >
+            <ShieldUser size={16} /> Dashboard
+          </Link>
+
+          <Link
             href="/report"
             className="flex items-center gap-1 hover:text-black transition-colors"
           >
             <FileEdit size={16} /> Report
           </Link>
+
           <button
             onClick={handleLogout}
             className="flex items-center gap-1 hover:text-black transition-colors"
@@ -56,6 +64,13 @@ const Header = () => {
       {/* Mobile Nav Menu */}
       {isOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 hover:text-black"
+            onClick={() => setIsOpen(false)}
+          >
+            <ShieldUser size={16} /> Dashboard
+          </Link>
           <Link
             href="/report"
             className="flex items-center gap-2 hover:text-black"
