@@ -4,13 +4,13 @@ import { Issue } from "@/models/Issue";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await connectDB();
   const { status } = await req.json();
 
   const updatedIssue = await Issue.findByIdAndUpdate(
-    params.id,
+    context.params.id,
     { status },
     { new: true }
   );
@@ -19,9 +19,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await connectDB();
-  await Issue.findByIdAndDelete(params.id);
+  await Issue.findByIdAndDelete(context.params.id);
   return NextResponse.json({ message: "Issue deleted" });
 }
