@@ -53,7 +53,7 @@ export default function AdminDashboard() {
   };
 
   const updateStatus = async (id: string, status: string) => {
-    const res = await fetch(`/api/admin/issues/report/${id}`, {
+    const res = await fetch(`/api/admin/issues/update/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
     const confirmed = confirm("Are you sure you want to delete this issue?");
     if (!confirmed) return;
 
-    const res = await fetch(`/api/admin/issues/report/${id}`, {
+    const res = await fetch(`/api/admin/issues/delete/${id}`, {
       method: "DELETE",
     });
     if (res.ok) {
