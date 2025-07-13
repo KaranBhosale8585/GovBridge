@@ -2,94 +2,96 @@
 
 ## 📌 Project Overview
 
-**CivicSync** is a free, open-source, community-powered civic issue tracker.  
-Residents can report problems, vote on issues, and collaborate with local authorities to build smarter neighborhoods.
+**GovBridge** is a fully functional, open-source civic issue tracker that empowers residents to **report problems**, **track resolutions**, and **collaborate** with local authorities and community admins. It’s built to improve communication and transparency across societies, campuses, and neighborhoods.
+
+🟢 **Live Demo**: [https://govbridge.vercel.app](https://govbridge.vercel.app)  
+📂 **GitHub Repo**: [https://github.com/karanbhosale8586/govbridge](https://github.com/karanbhosale8586/govbridge)  
+🌐 **Portfolio**: [https://portfoliokaranbhosale.vercel.app](https://portfoliokaranbhosale.vercel.app)
 
 ---
 
 ## 🎯 Purpose
 
-To empower local residents, students, or community members to:
-- Report civic issues (e.g., potholes, garbage, broken lights)
-- Track their resolution status
-- Vote on priority issues
-- Collaborate with societies, campuses, or local governments
+To enable **citizens, students, and organizations** to:
+- Raise civic issues (e.g. potholes, broken streetlights, water problems)
+- Attach photos/videos and exact locations
+- Upvote priority complaints
+- Get status updates from admins and authorities
 
 ---
 
 ## 💼 Use Cases
 
-- 🚧 Report potholes, water leaks, streetlight failures, garbage piles
-- 📍 Tag complaints to a location (map or pincode)
-- 🗳️ Vote and comment on complaints
-- 🧑‍💼 Local authority/admin updates status and assigns handlers
+- 🚧 Report issues like potholes, garbage, leaks, or power failures  
+- 📍 Tag complaint locations via Google Map or pincode  
+- 📸 Attach media for better context  
+- 🗳️ Upvote or comment on community issues  
+- 🧑‍💼 Admins view complaints, update status, and open maps directly
 
 ---
 
 ## 🧰 Tech Stack
 
-| Layer     | Tech Used                            |
-|-----------|--------------------------------------|
-| Frontend  | React / Next.js + Tailwind CSS       |
-| Backend   | Node.js + Express                    |
-| Database  | MongoDB (or PostgreSQL + Prisma)     |
-| Extra     | JWT, Cloudinary, Google Maps/Leaflet |
-| Optional  | Pusher / Socket.io for real-time     |
+| Layer     | Tech Used                                    |
+|-----------|----------------------------------------------|
+| Frontend  | Next.js 14 (React) + TypeScript + Tailwind CSS + ShadCN UI |
+| Backend   | Node.js + Express.js                         |
+| Database  | MongoDB (with Mongoose)                      |
+| Auth      | JWT-based authentication                     |
+| Media     | Cloudinary (for image uploads)               |
+| Maps      | Google Maps API (or Leaflet fallback)        |
+| Deployment| Vercel (frontend + backend serverless APIs)  |
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### ✅ For Residents
-- Post a civic issue with title, description, category
-- Upload image/video proof
-- Select location via map or pincode
-- View, upvote, and comment on other issues
-- Track resolution status
+### 👥 For Residents
+- 📝 Post an issue with title, description, and category
+- 📸 Upload image/video proof
+- 📍 Select location with map or pin code
+- 📈 View & upvote others’ issues
+- 🔔 Track complaint status in real-time
 
 ### 🛠️ For Admins
-- Dashboard to manage complaints
-- Assign handlers or volunteers
-- Filter issues by region, category, or status
-- Update status (Pending → In Progress → Resolved)
-- View analytics (top issues, most affected wards)
-
-### 👥 Community Tools (Phase 2+)
-- Create & vote on polls (e.g., security, development)
-- Announce events (e.g., clean-up drives, meetings)
-- Recruit volunteers or feedback collectors
+- 📋 Dashboard to manage and filter reports
+- 🔄 Update complaint status (Pending → In Progress → Resolved)
+- 🗺️ Open location in Google Maps
+- 📊 (Coming Soon) Analytics for top categories & high-issue regions
 
 ---
 
-## 🗂️ Folder Structure
+## 🌉 Why GovBridge?
 
-```plaintext
-civicsync/
-├── client/             # Frontend
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── api/
-│   │   └── App.jsx
-│   └── package.json
-│
-├── server/             # Backend
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── config/
-│   │   └── db.js
-│   ├── uploads/
-│   ├── server.js
-│   └── package.json
-│
-├── prisma/             # Optional if using PostgreSQL
-│   └── schema.prisma
-│
-├── .gitignore
-├── .env.example
-├── README.md
-└── LICENSE
+Because civic tech should be **accessible, transparent, and action-oriented**.  
+GovBridge was built with that mission — to give citizens a voice and officials a platform to respond faster and smarter.
+
+---
+
+## 🧪 Coming Soon
+
+- 📊 Analytics dashboard for issue trends and heatmaps  
+- 📨 Email and SMS notification system  
+- 🌐 Multilingual support (Marathi, Hindi, English)  
+- 🧑‍⚖️ Multi-role access (Campus Admins, Society Heads, Govt. Officers)
+
+---
+
+## 🙌 Acknowledgements
+
+- Inspired by real-world civic challenges and the idea of **tech-for-good**  
+- Built with ❤️ using modern technologies and clean UI/UX  
+- Huge thanks to the open-source community and all who inspired this project!
+
+---
+
+## 📬 Contact
+
+Have suggestions, ideas, or opportunities?  
+📧 Email: [karanbhosale8586@gmail.com](mailto:karanbhosale8586@gmail.com)  
+🔗 LinkedIn: [linkedin.com/in/karanbhosale8585](https://www.linkedin.com/in/karanbhosale8585)  
+🌐 Portfolio: [https://portfoliokaranbhosale.vercel.app](https://portfoliokaranbhosale.vercel.app)
+
+---
+
+> _"Technology should serve the people. GovBridge aims to be that bridge."_  
