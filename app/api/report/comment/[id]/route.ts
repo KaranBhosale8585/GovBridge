@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/getCurrentUser";
 // POST: Add a comment
 export async function POST(req: NextRequest, context: any) {
   await connectDB();
-    const user = await getCurrentUser();
+  const user = await getCurrentUser();
   const { id } = context.params;
   const { comment } = await req.json();
 
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest, context: any) {
   try {
     const issue = await Issue.findById(id)
       .select("comments")
-      .populate("comments.user", "name email");;
+      .populate("comments.user", "name email");
 
     if (!issue) {
       return NextResponse.json({ error: "Issue not found" }, { status: 404 });
