@@ -3,7 +3,16 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { MapPin, ThumbsUp, MessageCircle, AlertCircle, ExternalLink, Map, MapPinned } from "lucide-react";
+import {
+  MapPin,
+  ThumbsUp,
+  MessageCircle,
+  AlertCircle,
+  CheckCircle2,
+  Hammer,
+  Clock,
+  MapPinned,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -107,9 +116,36 @@ export default function IssueCard({ issue }: { issue: Issue }) {
     }
   };
 
+  const statusBadge = (status?: string) => {
+    switch (status) {
+      case "resolved":
+        return (
+          <span className="flex items-center gap-1 text-green-600 text-xs font-medium">
+            <CheckCircle2 className="w-4 h-4" />
+            Resolved
+          </span>
+        );
+      case "in-progress":
+        return (
+          <span className="flex items-center gap-1 text-yellow-600 text-xs font-medium">
+            <Hammer className="w-4 h-4" />
+            In Progress
+          </span>
+        );
+      default:
+        return (
+          <span className="flex items-center gap-1 text-gray-500 text-xs font-medium">
+            <Clock className="w-4 h-4" />
+            Open
+          </span>
+        );
+    }
+  };
+
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-200 p-4 flex flex-col justify-between h-full">
-      <div className="flex flex-col gap-2">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-4 flex flex-col justify-between h-full">
+      <div className="flex flex-col gap-3">
+        {" "}
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-1">
             {issue.title}
@@ -128,39 +164,33 @@ export default function IssueCard({ issue }: { issue: Issue }) {
           </div>
           <p className="text-xs text-gray-500">Category: {issue.category}</p>
         </div>
-
+        {/* Media */}
         {issue.media?.url && issue.media.mimetype.startsWith("image/") && (
-          <div className="mt-2 rounded overflow-hidden w-full max-h-48">
+          <div className="rounded-md overflow-hidden mt-1">
             <Image
               src={issue.media.url}
               alt={issue.title}
               width={400}
               height={200}
-              className="w-full h-auto object-cover rounded-md"
+              className="w-full h-48 object-cover rounded-md"
             />
           </div>
         )}
-
         {issue.media?.url && issue.media.mimetype.startsWith("video/") && (
-          <div className="mt-2 rounded overflow-hidden">
-            <video
-              width="100%"
-              height="200"
-              controls
-              className="rounded-md object-cover w-full max-h-48"
-            >
-              <source src={issue.media.url} type={issue.media.mimetype} />
-              Your browser does not support the video tag.
-            </video>
-          </div>
+          <video controls className="rounded-md mt-1 object-cover w-full h-48">
+            <source src={issue.media.url} type={issue.media.mimetype} />
+            Your browser does not support the video tag.
+          </video>
         )}
-
-        <p className="text-sm text-gray-800 mt-2 line-clamp-3">
+        {/* Description */}
+        <p className="text-sm text-gray-800 line-clamp-3">
           {issue.description}
         </p>
       </div>
 
+      {/* Footer Section */}
       <div className="flex items-center justify-between text-xs text-gray-600 mt-4 pt-2 border-t border-gray-200">
+        {/* Actions */}
         <div className="flex items-center gap-4">
           <button
             onClick={handleUpvote}
@@ -180,10 +210,13 @@ export default function IssueCard({ issue }: { issue: Issue }) {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Comments</DialogTitle>
-                <DialogDescription>See and add comments</DialogDescription>
+                <DialogDescription>
+                  See and post public feedback
+                </DialogDescription>
               </DialogHeader>
 
-              <div className="max-h-60 overflow-y-auto space-y-2 my-2">
+              {/* Comments List */}
+              <div className="max-h-60 overflow-y-auto space-y-2 mt-2">
                 {commentList.length === 0 ? (
                   <p className="text-sm text-gray-500">No comments yet.</p>
                 ) : (
@@ -201,9 +234,10 @@ export default function IssueCard({ issue }: { issue: Issue }) {
                 )}
               </div>
 
+              {/* Add Comment */}
               <Textarea
                 rows={3}
-                placeholder="Write a comment..."
+                placeholder="Write your comment..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
@@ -216,10 +250,8 @@ export default function IssueCard({ issue }: { issue: Issue }) {
           </Dialog>
         </div>
 
-        <span className="flex items-center gap-1 italic text-gray-500 capitalize">
-          <AlertCircle className="w-4 h-4" />
-          {issue.status || "open"}
-        </span>
+        {/* Status */}
+        <div>{statusBadge(issue.status)}</div>
       </div>
     </div>
   );
