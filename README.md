@@ -38,7 +38,7 @@ To enable **citizens, students, and organizations** to:
 | Backend   | Node.js + Express.js                         |
 | Database  | MongoDB (with Mongoose)                      |
 | Auth      | JWT-based authentication                     |
-| Media     | Cloudinary (for image uploads)               |
+| Media     | uploadthings (for image uploads)               |
 | Maps      | Google Maps API (or Leaflet fallback)        |
 | Deployment| Vercel (frontend + backend serverless APIs)  |
 
