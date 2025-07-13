@@ -13,6 +13,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const issues = await Issue.find().populate("user", "name email");
+  const issues = await Issue.find()
+    .populate("user", "name email")
+    .populate("comments.user", "name email");
   return NextResponse.json(issues);
 }

@@ -1,9 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X, FileEdit, LogIn, LogOut, UserPlus, LayoutDashboard, ShieldUser } from "lucide-react";
+import React, { useState } from "react";
+import {
+  Menu,
+  X,
+  FileEdit,
+  LogIn,
+  LogOut,
+  UserPlus,
+  ShieldUser,
+} from "lucide-react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,85 +29,84 @@ const Header = () => {
   };
 
   return (
-    <header className="border-b border-gray-300 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
-        <h1 className="text-2xl font-semibold text-gray-800 tracking-tight">
-          <Link href="/">GovBridge</Link>
-        </h1>
+        <Link
+          href="/"
+          className="text-2xl font-bold text-gray-800 hover:text-black transition"
+        >
+          GovBridge
+        </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
           <Link
             href="/dashboard"
             className="flex items-center gap-1 hover:text-black transition-colors"
           >
-            <ShieldUser size={16} /> Dashboard
+            <ShieldUser size={16} />
+            Dashboard
           </Link>
-
           <Link
             href="/report"
             className="flex items-center gap-1 hover:text-black transition-colors"
           >
-            <FileEdit size={16} /> Report
+            <FileEdit size={16} />
+            Report
           </Link>
-
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1 hover:text-black transition-colors"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-md text-gray-600 hover:bg-red-50 hover:text-red-600 transition"
           >
-            <LogOut size={16} /> Logout
+            <LogOut size={16} />
+            Logout
           </button>
         </nav>
 
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-gray-700"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen((prev) => !prev)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Nav Menu */}
+      {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
+        <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700 animate-slide-down">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 hover:text-black"
+            className="block w-full px-3 py-2 rounded-md hover:bg-gray-100 transition"
             onClick={() => setIsOpen(false)}
           >
-            <ShieldUser size={16} /> Dashboard
+            <div className="flex items-center gap-2">
+              <ShieldUser size={16} />
+              Dashboard
+            </div>
           </Link>
           <Link
             href="/report"
-            className="flex items-center gap-2 hover:text-black"
+            className="block w-full px-3 py-2 rounded-md hover:bg-gray-100 transition"
             onClick={() => setIsOpen(false)}
           >
-            <FileEdit size={16} /> Report
-          </Link>
-          <Link
-            href="/login"
-            className="flex items-center gap-2 hover:text-black"
-            onClick={() => setIsOpen(false)}
-          >
-            <LogIn size={16} /> Login
-          </Link>
-          <Link
-            href="/register"
-            className="flex items-center gap-2 hover:text-black"
-            onClick={() => setIsOpen(false)}
-          >
-            <UserPlus size={16} /> Register
-          </Link>
+            <div className="flex items-center gap-2">
+              <FileEdit size={16} />
+              Report
+            </div>
+          </Link>          
           <button
             onClick={() => {
               setIsOpen(false);
               handleLogout();
             }}
-            className="flex items-center gap-2 hover:text-black"
+            className="block w-full px-3 py-2 rounded-md text-left hover:bg-red-50 hover:text-red-600 transition"
           >
-            <LogOut size={16} /> Logout
+            <div className="flex items-center gap-2">
+              <LogOut size={16} />
+              Logout
+            </div>
           </button>
         </div>
       )}
