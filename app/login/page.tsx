@@ -44,7 +44,7 @@ export default function Login() {
         setForm({ email: "", password: "" });
         // Wait a short moment before redirecting (helps on Vercel)
         setTimeout(() => {
-          router.replace("/");
+          window.location.replace("/");
         }, 100);
       }
     } catch {
